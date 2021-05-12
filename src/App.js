@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from './logo.svg'
+import styles from './App.module.scss'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const InputContainer = (props) => {
+	return <div className={styles.inputContainer}>{props.children}</div>
 }
 
-export default App;
+function App() {
+	return (
+		<div className={styles.container}>
+			<InputContainer>
+				<h2>Range of TODOS to fetch</h2>
+				<div className={styles.inputRow}>
+					<input
+						className={styles.inputBox}
+						type='text'
+						name='name'
+						placeholder='e.g 1-5'
+					/>
+					<button onclick='activateLasers()'>Fetch</button>
+				</div>
+			</InputContainer>
+			<InputContainer />
+			<InputContainer>
+				<h3>Current Status</h3>
+				<p>Procesing</p>
+			</InputContainer>
+		</div>
+	)
+}
+
+export default App
