@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { Batch } from './Batch'
+import { Batch } from './Batch/Batch'
 import styles from './BatchesContainer.module.scss'
 export const BatchesContainer = () => {
 	const batches = useSelector((state) => state.batches)

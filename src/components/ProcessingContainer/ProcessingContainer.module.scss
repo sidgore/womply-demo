@@ -1,0 +1,14 @@
+%font-style {
+	font-weight: bold;
+	font-size: 24px;
+}
+
+.processing {
+	@extend %font-style;
+	color: red;
+}
+
+.ready {
+	@extend %font-style;
+	color: green;
+}

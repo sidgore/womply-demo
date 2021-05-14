@@ -1,9 +1,9 @@
 import React from 'react'
-import styles from './BatchesContainer.module.scss'
+import styles from './Batch.module.scss'
 import { createSelector } from '@reduxjs/toolkit'
 import { useSelector, useDispatch } from 'react-redux'
-import { removeBatch } from '../../store/batchesSlice'
-import { setProcessingStatus } from '../../store/processingSlice'
+import { removeBatch } from '../../../store/batchesSlice'
+import { setProcessingStatus } from '../../../store/processingSlice'
 
 const selectedBatchTodos = createSelector(
 	(state) => state.todos,
@@ -15,7 +15,12 @@ const selectedBatchTodos = createSelector(
 			const found = todos.find((item) => item.id === i)
 			if (found) {
 				myTodos.push(found)
-			}
+			} else
+				myTodos.push({
+					id: i,
+					title: 'User Cancelled the operation',
+					completed: 'Cancelled',
+				})
 		}
 
 		return myTodos
@@ -50,7 +55,16 @@ export const Batch = ({ batch, batchIndex }) => {
 					{todos.map((todo, index) => (
 						<tr key={index}>
 							<td>{todo.id}</td>
-							<td>{todo.title}</td>
+							<td
+								className={
+									todo.completed === 'Cancelled'
+										? styles.cancelled
+										: todo.completed === true
+										? styles.complete
+										: styles.incomplete
+								}>
+								{todo.title}
+							</td>
 						</tr>
 					))}
 				</tbody>

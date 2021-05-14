@@ -19,6 +19,4 @@ export const batchesSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const { removeBatch, pushBatch } = batchesSlice.actions
 
-//export const selectCount = (state) => state.counter.value
-
 export default batchesSlice.reducer

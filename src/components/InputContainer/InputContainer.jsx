@@ -2,56 +2,45 @@ import React from 'react'
 import styles from './InputContainer.module.scss'
 import { FetchTimeContainer } from '../FetchTimeContainer/FetchTimeContainer'
 import { useSelector, useDispatch } from 'react-redux'
-import { pushToDo } from '../../store/todosSlice'
-import { pushBatch } from '../../store/batchesSlice'
-import { setProcessingStatus } from '../../store/processingSlice'
+import { fetchToDos } from '../../store/todosSlice'
+import {
+	setProcessingStatus,
+	setStart,
+	setEnd,
+	setError,
+} from '../../store/processingSlice'
 import { getValidBatch } from '../../helpers/helpers'
 
 const PROCESSING = 'PROCESSING'
-const READY = 'READY'
 
 export const InputContainer = () => {
 	const [inputBatch, setInputBatch] = React.useState('')
-	const [start, setStart] = React.useState()
-	const [end, setEnd] = React.useState()
-
-	const [error, setError] = React.useState('')
-	const todos = useSelector((state) => state.todos)
 	const dispatch = useDispatch()
+	React.useEffect(() => {
+		if (inputBatch.length) {
+			const { start: startTmp, end: endTmp, error: errorTmp } = getValidBatch(inputBatch)
 
-	const fetchToDo = async () => {
-		const { start, end, error } = getValidBatch(inputBatch)
+			dispatch(setStart(startTmp))
+			dispatch(setEnd(endTmp))
+			dispatch(setError(errorTmp))
+		}
+	}, [inputBatch, dispatch])
 
-		console.log(start, end, error)
-		setError(error)
-		setStart(start)
-		setEnd(end)
+	const error = useSelector((state) => state.processing.error)
 
+	const handleFetch = () => {
 		if (!error) {
-			let t0 = performance.now()
-
 			dispatch(setProcessingStatus(PROCESSING))
-
-			for (let i = start; i <= end; i++) {
-				const found = todos.findIndex((todo) => todo.id === i)
-
-				if (found === -1) {
-					const res = await fetch(`https://jsonplaceholder.typicode.com/todos/${i}`)
-
-					const result = await res.json()
-
-					dispatch(pushToDo(result))
-				}
-			}
-			let t1 = performance.now()
-			const batch = { start, end, time: t1 - t0 }
-			dispatch(pushBatch(batch))
-			dispatch(setProcessingStatus(READY))
+			dispatch(fetchToDos())
 		}
 	}
 
 	const handleChange = (e) => {
 		setInputBatch(e.target.value)
+	}
+
+	const handleCancel = () => {
+		dispatch(setProcessingStatus('READY'))
 	}
 	return (
 		<div style={{ width: '100%' }}>
@@ -65,7 +54,8 @@ export const InputContainer = () => {
 					onChange={handleChange}
 					value={inputBatch}
 				/>
-				<button onClick={fetchToDo}>Fetch</button>
+				<button onClick={handleFetch}>Fetch</button>
+				<button onClick={handleCancel}>Cancel</button>
 			</div>
 			<p className={styles.error}>{error}</p>
 
