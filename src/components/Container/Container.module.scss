@@ -1,0 +1,21 @@
+.inputContainer {
+	border: 1px solid black;
+	display: flex;
+	padding: 10px;
+	margin: 10px;
+}
+
+.inputContainer1 {
+	border: 1px solid aqua;
+	display: flex;
+	padding: 10px;
+	margin: 10px;
+	background-color: bisque;
+}
+
+@media screen and (min-width: 640px) {
+	.inputContainer1,
+	.inputContainer {
+		width: 100%;
+	}
+}
