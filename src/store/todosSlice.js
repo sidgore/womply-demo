@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { setProcessingStatus } from './processingSlice'
 import { pushBatch } from './batchesSlice'
+import { fetchToDo } from '../helpers/helpers'
 
 export const todosSlice = createSlice({
 	name: 'todos',
@@ -26,11 +27,9 @@ export const fetchToDos = () => async (dispatch, getState) => {
 		const found = todos.findIndex((todo) => todo.id === i)
 
 		if (found === -1) {
-			const res = await fetch(`https://jsonplaceholder.typicode.com/todos/${i}`)
+			const todo = await fetchToDo(i)
 
-			const result = await res.json()
-
-			dispatch(pushToDo(result))
+			dispatch(pushToDo(todo))
 		}
 	}
 	let t1 = performance.now()

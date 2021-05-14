@@ -21,3 +21,19 @@ export const getValidBatch = (inputBatch) => {
 	returnObj.end = parseInt(end)
 	return returnObj
 }
+
+export const fetchToDo = async (id) => {
+	try {
+		const res = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`)
+
+		if (res.status === 200) {
+			const result = await res.json()
+			return result
+		}
+		if (res.status === 404) {
+			return { id, title: 'Record Not Found', completed: 'Cancelled' }
+		}
+	} catch (error) {
+		console.log('error', error)
+	}
+}

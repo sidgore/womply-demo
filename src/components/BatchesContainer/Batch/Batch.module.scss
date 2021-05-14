@@ -1,7 +1,9 @@
 .batch {
-	border: 1px dotted white;
-	margin: 10px 0 10px 0;
-	padding: 5px;
+	border: 1px solid red;
+	box-shadow: 1px 1px 1px gold;
+
+	padding: 10px;
+	margin-bottom: 10px;
 	table,
 	th,
 	td {
@@ -19,6 +21,7 @@
 
 %font-style {
 	text-transform: capitalize;
+	font-weight: 600;
 }
 
 .cancelled {
